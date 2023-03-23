@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "D:\Tahsin\Documents\School\3BB4\DP\settings\Design Project.Debug.general.xcl" --backend -f "D:\Tahsin\Documents\School\3BB4\DP\settings\Design Project.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "D:\Tahsin\Documents\School\3BB4\DP\PID-Temperature-microcontroller\settings\Design Project.Debug.general.xcl" --backend -f "D:\Tahsin\Documents\School\3BB4\DP\PID-Temperature-microcontroller\settings\Design Project.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "D:\Tahsin\Documents\School\3BB4\DP\settings\Design Project.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\Tahsin\Documents\School\3BB4\DP\settings\Design Project.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "D:\Tahsin\Documents\School\3BB4\DP\PID-Temperature-microcontroller\settings\Design Project.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\Tahsin\Documents\School\3BB4\DP\PID-Temperature-microcontroller\settings\Design Project.Debug.driver.xcl" 
 
 @echo off 
 :end

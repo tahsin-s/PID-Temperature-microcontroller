@@ -1,15 +1,15 @@
-"D:\Tahsin\Documents\School\3BB4\DP\main.c"
+"D:\Tahsin\Documents\School\3BB4\DP\PID-Temperature-microcontroller\main.c"
 -std=c99
 -ferror-limit=0
 -fbracket-depth=512
 -funsigned-char
 -MD
 -MF
-D:\Tahsin\Documents\School\3BB4\DP\Debug\Obj\main.pbi.dep
+D:\Tahsin\Documents\School\3BB4\DP\PID-Temperature-microcontroller\Debug\Obj\main.pbi.dep
 -o
 main.pbi
 -I
-D:\Tahsin\Documents\School\3BB4\DP
+D:\Tahsin\Documents\School\3BB4\DP\PID-Temperature-microcontroller
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\inc\dlib
 -I

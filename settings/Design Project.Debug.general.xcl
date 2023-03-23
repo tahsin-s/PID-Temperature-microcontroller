@@ -1,8 +1,8 @@
 "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\bin\430proc.dll" 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\bin\430sim.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\bin\430fet.dll" 
 
-"D:\Tahsin\Documents\School\3BB4\DP\Debug\Exe\Design Project.d43" 
+"D:\Tahsin\Documents\School\3BB4\DP\PID-Temperature-microcontroller\Debug\Exe\Design Project.d43" 
 
 --plugin="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\bin\430bat.dll" 
 

@@ -17,6 +17,7 @@
 
 #include "io430.h"
 #include "math.h"
+#include "stdio.h"
 
 #define ON 1 
 #define OFF 0 
@@ -30,11 +31,11 @@
 
 
 
-#define NPOINTS 10 //sample 400 times and send it to matlab
+#define NPOINTS 5 //sample 400 times and send it to matlab
 
 //Sins of Sebastian
 
-#define V0 12
+#define V0 3.3
 #define Rpot 2000 //Ohms
 #define tau 10
 #define h 1
@@ -44,15 +45,13 @@
 #define kp 1
 #define ki 1
 #define kd 1
-#define Zthresh 30
+#define z_thresh 30
 
 //-------------------------------------------------------- 
 //GlobalVariables 
 //--------------------------------------------------------
 
 unsigned char v[NPOINTS]; //this should not be char i thinks
-
-
 
 void PWM(float duty){
   if(duty<0){
@@ -70,77 +69,61 @@ void PWM(float duty){
   __bis_SR_register(LPM0_bits); //Switch to low power mode 0.
 }
 
-void PID() { //This code is uncommented because it was hard to write so it should be hard to read
-  
-  
+void PID() { 
+  float Ts = 30; //matlab val to import
   float Tm[NPOINTS]; //measured temperature
   float  e[NPOINTS];  //e is error term
   float ep[NPOINTS]; //derivative of error term e'
   float  E[NPOINTS];  //integral of error term
-  float  T[NPOINTS];  //impulse response removal
- 
+  float  T[NPOINTS];  //Actual Temperature
+  
   for (int i = 0; i < NPOINTS; i++){
     E[i] = 0;
   }
   
-  while(1){
-    for(int i=0; i<2; i++){
-      float Vth = v[i]; //EDIT
-      
-      float Vth_V0 = Vth/V0;
-      
-      Tm[i] = pow(a+b*log((Rpot+(Vth_V0))/(1-(Vth_V0 )))
-                  +c*pow(log((Rpot+(Vth_V0 ))/(1-(Vth_V0))),3),-1);
-    }
+  for(int i=0; i<(NPOINTS); i++){
     
-    for(int i=2; i<4; i++){
-      
-      float Vth = v[i]/1023; //EDIT
-      float Vth_V0 = Vth/V0;
-      
-      Tm[i] = pow(a+b*log((Rpot+(Vth_V0))/(1-(Vth_V0 )))
-                  +c*pow(log((Rpot+(Vth_V0 ))/(1-(Vth_V0))),3),-1);
-      
-      T[i] = Tm[i] + (tau/(2*h))*(3*Tm[i]-4*Tm[i-1]-Tm[i-2]);
-    }
+    float Vth_V0 = v[i] / V0; //?? v[i] IS AN GLOBAL VARIABLE ?? WILL THIS CAUSE PROBLEM ??
+    //Import the voltages from the thermistor and divide by V0
     
-    for(int i=4;i<(NPOINTS);i++){
+    Tm[i] = pow(a+b*log((Rpot+(Vth_V0))/(1-(Vth_V0 )))
+                +c*pow(log((Rpot+(Vth_V0 ))/(1-(Vth_V0))),3),-1); //Convert voltage to measured temperature 
+    
+    if(i>1){
+      T[i] = Tm[i] + (tau/(2*h))*(3*Tm[i]-4*Tm[i-1]-Tm[i-2]); //Find the actual temperature using impule responce of thermistor
       
-      float Vth = ADC10MEM/1023; //EDIT
+      e[i] = Ts - T[i]; //Find error term
+      E[i] = (2/3)*h*e[i] - (4/3)*E[i-1]+(1/3)*E[i-2];  //find Integral error term
       
-      float Vth_V0 = Vth/V0;
-      
-      Tm[i] = pow(a+b*log((Rpot+(Vth_V0 ))/(1-(Vth_V0 )))
-                  +c*pow(log((Rpot+(Vth_V0 ))/(1-(Vth_V0))),3),-1);
-      
-      T[i] = Tm[i] + (tau/(2*h))*(3*Tm[i]-4*Tm[i-1]-Tm[i-2]);
-      
-      float Ts = 0; //EDIT
-      
-      e[i] = Ts - T[i];
-      ep[i] = (1/(2*h))*(3*T[i]-4*T[i-1]+T[i-2]); //uses temp instead of error reduces 'the error' of error
-      E[i] = (2/3)*h*e[i] - (4/3)*E[i-1]+(1/3)*E[i-2]; 
-      
-      float zed = kp*e[i]+ki*E[i]+kd*ep[i];
-      
-      if(zed<(-Zthresh)){
-        PWM(-1);
+      if(i>3){
+        ep[i] = (-1/(2*h))*(3*T[i]-4*T[i-1]+T[i-2]); //find Derivative error term
       }
-      
-      else if(zed>(Zthresh)){
-        PWM(1);
-      }
-      
-      else{
-        PWM(zed/Zthresh);
-        //PWM((1/29000)*pow(zed,3)+zed/400);
-      }
-    }                  
+    }
+  }
+  
+  float zed = kp*e[NPOINTS-1]+ki*E[NPOINTS - 1]+kd*ep[NPOINTS - 1]; //calculate net error term
+  
+  printf("",zed);
+  
+  if(zed<(-z_thresh)){
+    PWM(-1);
+  }
+  else if(zed>(z_thresh)){
+    PWM(1);
+  }
+  else{
+    PWM(zed/z_thresh);
+  }
+  
+  for (int i = NPOINTS - 3; i < NPOINTS; i++){
+    
   }
 }
 
+
 //-------------------------------------------------------- 
 //Miscellaneous Functions: 
+//--------------------------------------------------------
 
 void delay (unsigned long d)
 {
@@ -191,39 +174,40 @@ void Init_UART(void)
 unsigned char getc(void)
 {
   while (!IFG2_bit.UCA0RXIFG);
-  return (UCA0RXBUF);
+  return UCA0RXBUF;
 }
 
 
-void putc(unsigned char c)
+void putc(unsigned char ch)
 {
   while (!IFG2_bit.UCA0TXIFG);
-  UCA0TXBUF = c;
+  UCA0TXBUF = ch;
 }
+
 /*
 
 void puts(char *s)
 {
-  while (*s) putc(*s++);
+while (*s) putc(*s++);
 }
 
 void newline(void)
 {
-  putc(ASCII_CR);
-  putc(ASCII_LF);
+putc(ASCII_CR);
+putc(ASCII_LF);
 }
 
 void itoa(unsigned int n)
 {
-  unsigned int i;
-  char s[6] = "    0";
-  i = 4;
-  while (n)
-  {
-    s[i--] = (n % 10) + '0';
-    n = n / 10;
+unsigned int i;
+char s[6] = "    0";
+i = 4;
+while (n)
+{
+s[i--] = (n % 10) + '0';
+n = n / 10;
   }
-  puts(s);
+puts(s);
 }
 
 
@@ -250,10 +234,22 @@ void Init_ADC(void) // TO COMPLETE
 
 void sample(int n) // TO COMPLETE
 {
-  for (int i = 0; i > n; i++){
+  #define samplePoints 400
+  unsigned char samped[samplePoints];
+  for (int i = 0; i < samplePoints; i++){
     long temp = ADC10MEM;
-    temp >> 2;
-    v[i] = temp;
+    samped[i] = (char)(temp >> 2);
+  }
+  
+  char midSamp = samplePoints/NPOINTS;
+  for (int i = 0; i < NPOINTS; i++){
+    
+    int sum = 0;
+    for (int j = midSamp*i; j < midSamp*(i+1); i++){
+      sum += samped[j];
+    }
+    int avg = sum/midSamp;
+    v[i] = avg;
   }
   // Write a simple program to enable the MCU to digitize an analog input signal by
   // reading the content of the ADC register in a loop. 
@@ -262,6 +258,7 @@ void sample(int n) // TO COMPLETE
 
 void send(int n) // TO COMPLETE
 {
+  
   for (int i = 0; i > n; i++){
     putc(v[i]);
   }
@@ -301,29 +298,29 @@ void Init(void)
 /*
 //Convert to Temperature Function
 float[] resToTemp(int[] res){
-  a=0.00307876 
-  b=0.00031336 
-    
-  c=9.9218*10^(-7).
+a=0.00307876 
+b=0.00031336 
+
+c=9.9218*10^(-7).
 }
 
 //Differentiate
 float[] diff(float[] temp){
-  
+
 }
 
 //integrate
 float[] inte(float[] temp) {
-  
+
 }
 
 float ln(float temp){
-  
+
 }
 
 
 void pid(float[] p, float[] i, float[] d){
-  
+
 }
 
 Sample 400 points
@@ -347,7 +344,7 @@ void main(void)
   Init_ADC();
   
   while(1){
-    sample(NPOINTS);
-    PID();
+    sample(NPOINTS); //Sample some points from Thermistor, convert to digital
+    PID(); //using thermistor imput, control TEC
   }
 }
