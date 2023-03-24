@@ -14,10 +14,7 @@
 //-----------------------------------------------------------------
 
 
-
 #include "io430.h"
-#include "math.h"
-#include "stdio.h"
 
 #define ON 1 
 #define OFF 0 
@@ -29,23 +26,7 @@
 #define GREEN_LED P1OUT_bit.P0 
 #define RED_LED P1OUT_bit.P6
 
-
-
-#define NPOINTS 5 //sample 400 times and send it to matlab
-
-//Sins of Sebastian
-
-#define V0 3.3
-#define Rpot 2000 //Ohms
-#define tau 10
-#define h 1
-#define a 0.00276964
-#define b 0.00025192
-#define c 3.2782E-7
-#define kp 1
-#define ki 1
-#define kd 1
-#define z_thresh 30
+#define NPOINTS 20 //sample 400 times and send it to matlab
 
 //-------------------------------------------------------- 
 //GlobalVariables 
@@ -53,77 +34,8 @@
 
 unsigned char v[NPOINTS]; //this should not be char i thinks
 
-void PWM(float duty){
-  if(duty<0){
-    duty = 1 + duty;
-    P1OUT_bit.P1 = 1;
-  } 
-  else {
-    P1OUT_bit.P1 = 0;
-  }
-  
-  TA0CCR0 = 1000; //Set the period in the Timer A0 Capture/Compare 0 register to 1000 us.
-  TA0CCTL1 = OUTMOD_7;
-  TA0CCR1 = (int)(1000*duty); //The period in microseconds that the power is ON. It's half the time, which translates to a 50% duty cycle.
-  TA0CTL = TASSEL_2 + MC_1; //TASSEL_2 selects SMCLK as the clock source, and MC_1 tells it to count up to the value in TA0CCR0.
-  __bis_SR_register(LPM0_bits); //Switch to low power mode 0.
-}
-
-void PID() { 
-  float Ts = 30; //matlab val to import
-  float Tm[NPOINTS]; //measured temperature
-  float  e[NPOINTS];  //e is error term
-  float ep[NPOINTS]; //derivative of error term e'
-  float  E[NPOINTS];  //integral of error term
-  float  T[NPOINTS];  //Actual Temperature
-  
-  for (int i = 0; i < NPOINTS; i++){
-    E[i] = 0;
-  }
-  
-  for(int i=0; i<(NPOINTS); i++){
-    
-    float Vth_V0 = v[i] / V0; //?? v[i] IS AN GLOBAL VARIABLE ?? WILL THIS CAUSE PROBLEM ??
-    //Import the voltages from the thermistor and divide by V0
-    
-    Tm[i] = pow(a+b*log((Rpot+(Vth_V0))/(1-(Vth_V0 )))
-                +c*pow(log((Rpot+(Vth_V0 ))/(1-(Vth_V0))),3),-1); //Convert voltage to measured temperature 
-    
-    if(i>1){
-      T[i] = Tm[i] + (tau/(2*h))*(3*Tm[i]-4*Tm[i-1]-Tm[i-2]); //Find the actual temperature using impule responce of thermistor
-      
-      e[i] = Ts - T[i]; //Find error term
-      E[i] = (2/3)*h*e[i] - (4/3)*E[i-1]+(1/3)*E[i-2];  //find Integral error term
-      
-      if(i>3){
-        ep[i] = (-1/(2*h))*(3*T[i]-4*T[i-1]+T[i-2]); //find Derivative error term
-      }
-    }
-  }
-  
-  float zed = kp*e[NPOINTS-1]+ki*E[NPOINTS - 1]+kd*ep[NPOINTS - 1]; //calculate net error term
-  
-  printf("",zed);
-  
-  if(zed<(-z_thresh)){
-    PWM(-1);
-  }
-  else if(zed>(z_thresh)){
-    PWM(1);
-  }
-  else{
-    PWM(zed/z_thresh);
-  }
-  
-  for (int i = NPOINTS - 3; i < NPOINTS; i++){
-    
-  }
-}
-
-
 //-------------------------------------------------------- 
 //Miscellaneous Functions: 
-//--------------------------------------------------------
 
 void delay (unsigned long d)
 {
@@ -135,6 +47,7 @@ __interrupt void PORT1_ISR(void) {
   GREEN_LED = OFF;
   P1IFG_bit.P3 = 0;    // clear the interrupt request flag 
 } 
+
 
 //-------------------------------------------------------- 
 //UART Module 
@@ -174,45 +87,38 @@ void Init_UART(void)
 unsigned char getc(void)
 {
   while (!IFG2_bit.UCA0RXIFG);
-  return UCA0RXBUF;
+  return (UCA0RXBUF);
 }
 
-
-void putc(unsigned char ch)
+void putc(unsigned char c)
 {
   while (!IFG2_bit.UCA0TXIFG);
-  UCA0TXBUF = ch;
+  UCA0TXBUF = c;
 }
-
-/*
 
 void puts(char *s)
 {
-while (*s) putc(*s++);
+  while (*s) putc(*s++);
 }
 
 void newline(void)
 {
-putc(ASCII_CR);
-putc(ASCII_LF);
+  putc(ASCII_CR);
+  putc(ASCII_LF);
 }
 
 void itoa(unsigned int n)
 {
-unsigned int i;
-char s[6] = "    0";
-i = 4;
-while (n)
-{
-s[i--] = (n % 10) + '0';
-n = n / 10;
+  unsigned int i;
+  char s[6] = "    0";
+  i = 4;
+  while (n)
+  {
+    s[i--] = (n % 10) + '0';
+    n = n / 10;
   }
-puts(s);
+  puts(s);
 }
-
-
-*/
-
 //-------------------------------------------------------- 
 //ADCModule 
 //--------------------------------------------------------
@@ -232,46 +138,49 @@ void Init_ADC(void) // TO COMPLETE
   
 }
 
-void sample(int n) // TO COMPLETE
+void Sample(int n) // TO COMPLETE
 {
-  #define samplePoints 400
-  unsigned char samped[samplePoints];
-  for (int i = 0; i < samplePoints; i++){
-    long temp = ADC10MEM;
-    samped[i] = (char)(temp >> 2);
-  }
-  
-  char midSamp = samplePoints/NPOINTS;
-  for (int i = 0; i < NPOINTS; i++){
-    
-    int sum = 0;
-    for (int j = midSamp*i; j < midSamp*(i+1); i++){
-      sum += samped[j];
-    }
-    int avg = sum/midSamp;
-    v[i] = avg;
+  for (int i = n-1; i >=0; i--){
+    unsigned char temp = ADC10MEM;
+    temp = temp >> 2;
+    v[i] = temp;
   }
   // Write a simple program to enable the MCU to digitize an analog input signal by
   // reading the content of the ADC register in a loop. 
   
 }
 
-void send(int n) // TO COMPLETE
+void Send(int n) // TO COMPLETE
 {
-  
-  for (int i = 0; i > n; i++){
+  for (int i = n-1; i >=0; i--){
     putc(v[i]);
   }
   // Write a simple program to enable the MCU to to transmit the sampled data
   // via the USB interface. 
 }
-
-//-------------------------------------------------------- 
-//TEC Driver
 //--------------------------------------------------------
+// PWM
+//--------------------------------------------------------
+void Init_PWM(void){
+  P2DIR = 0xFF; //Set pin 2.1 to the output direction.
+  P2SEL = BIT1; //Select pin 2.1 as our PWM output.
+}
 
-
-
+void PWM(float duty){
+  if(duty<0){
+    duty = 1 + duty;
+    P2OUT_bit.P7 = 1;
+  } 
+  else {
+    P2OUT_bit.P7 = 0;
+  }
+  
+  TA0CCR0 = 1000; //Set the period in the Timer A0 Capture/Compare 0 register to 1000 us.
+  TA0CCTL1 = OUTMOD_7;
+  TA0CCR1 = (int)(1000*duty); //The period in microseconds that the power is ON. It's half the time, which translates to a 50% duty cycle.
+  TA0CTL = TASSEL_2 + MC_1; //TASSEL_2 selects SMCLK as the clock source, and MC_1 tells it to count up to the value in TA0CCR0.
+  __bis_SR_register(LPM0_bits); //Switch to low power mode 0.
+}
 //-------------------------------------------------------- 
 //Initialization 
 //--------------------------------------------------------
@@ -287,64 +196,25 @@ void Init(void)
   P1REN = 0x08; //enable output resistor 
   P1OUT = 0x08; //enable P1.3 pullup resistor 
   P1DIR = 0x41; //setup LEDs as output 
-  
-  P1DIR |= BIT2; //Set pin 1.2 to the output direction.
-  P1DIR |= BIT1; 
-  P1SEL |= BIT2; //Select pin 1.2 as our PWM output.
-  
   P1IE_bit.P3 = 1; //enable interrupts on P1.3 input
 }
 
-/*
-//Convert to Temperature Function
-float[] resToTemp(int[] res){
-a=0.00307876 
-b=0.00031336 
-
-c=9.9218*10^(-7).
-}
-
-//Differentiate
-float[] diff(float[] temp){
-
-}
-
-//integrate
-float[] inte(float[] temp) {
-
-}
-
-float ln(float temp){
-
-}
-
-
-void pid(float[] p, float[] i, float[] d){
-
-}
-
-Sample 400 points
-Convert to T
-
-Differentiate
-Integrate
-
-Use constants to determine PWM Duty Cycle
-Feed 400 PWMs
-
-Send 400 points to MATLAB
-
-
-
-*/
 void main(void) 
 {
   Init(); 
-  //Init_UART(); 
+  Init_UART(); 
   Init_ADC();
+  Init_PWM();
   
-  while(1){
-    sample(NPOINTS); //Sample some points from Thermistor, convert to digital
-    PID(); //using thermistor imput, control TEC
+  while(1)
+  {
+    getc(); 
+    GREEN_LED = ON; 
+    Send(NPOINTS); 
+    GREEN_LED = OFF; 
+    char c1 = getc();
+    char c0 = getc();
+    Sample(NPOINTS);
+    PWM(0.5);
   }
 }
