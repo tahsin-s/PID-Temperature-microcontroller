@@ -208,6 +208,8 @@ void Init_PWM(void){
 
   P2DIR |= BIT1; //Set pin 2.1 to the output direction.
   P2SEL |= BIT1; //Select pin 2.1 as our PWM output.
+
+  P2REN |= BIT7;
   TA1CCR0 = 1000; //Set the period in the Timer A0 Capture/Compare 0register to 1000 us.
   TA1CCTL1 = OUTMOD_7;
   TA1CCR1 = 500; //The period in microseconds that the power is ON. It'shalf the time, which translates to a 50% duty cycle.
@@ -249,10 +251,9 @@ void PID_fun(float Ts, float *tempOut) {
   float c =3.2782E-7;
   char z_thresh =30;
 
-  float kp = 1;
-  float ki = 1;
+  float kp = 0.003;
+  float ki = 0.0004;
   float kd = 1;
-
 
   float Tm[NPOINTS]; //measured temperature
   float  e[NPOINTS];  //e is error term
@@ -349,3 +350,4 @@ void main(void) {
 //    newline();
   }
 }
+

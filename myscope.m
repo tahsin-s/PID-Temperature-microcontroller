@@ -89,7 +89,7 @@ if RUN == 0
     fprintf(comport,'%s',settemp(2));
     
     
-    % process sent data as 3 digit decimals
+    % process recieved data as 3 digit decimals
     d = fread(comport,9,"uint8");
 
     temps = zeros(1,3);
