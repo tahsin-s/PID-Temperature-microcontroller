@@ -95,7 +95,10 @@ void putc(unsigned char c)
   while (!IFG2_bit.UCA0TXIFG);
   UCA0TXBUF = c;
 }
-
+void putf(float num){
+  long i;
+  
+}
 void puts(char *s)
 {
   while (*s) putc(*s++);
@@ -162,11 +165,17 @@ void Send(int n) // TO COMPLETE
 // PWM
 //--------------------------------------------------------
 void Init_PWM(void){
-  P2DIR = 0xFF; //Set pin 2.1 to the output direction.
-  P2SEL = BIT1; //Select pin 2.1 as our PWM output.
+  P2DIR_bit.P7 = 1; //Set pin 2.7 to be the H-Bridge mode.
+  
+  P2DIR |= BIT1; //Set pin 2.1 to the output direction.
+  P2SEL |= BIT1; //Select pin 2.1 as our PWM output.
+  TA1CCR0 = 1000; //Set the period in the Timer A0 Capture/Compare 0register to 1000 us.
+  TA1CCTL1 = OUTMOD_7;
+  TA1CCR1 = 500; //The period in microseconds that the power is ON. It'shalf the time, which translates to a 50% duty cycle.
+  TA1CTL = TASSEL_2 + MC_1; //TASSEL_2 selects SMCLK as the clock source,and MC_1 tells it to count up to the value in TA0CCR0.
 }
 
-void PWM(float duty){
+void PWM_fun(float duty){
   if(duty<0){
     duty = 1 + duty;
     P2OUT_bit.P7 = 1;
@@ -175,11 +184,8 @@ void PWM(float duty){
     P2OUT_bit.P7 = 0;
   }
   
-  TA0CCR0 = 1000; //Set the period in the Timer A0 Capture/Compare 0 register to 1000 us.
-  TA0CCTL1 = OUTMOD_7;
-  TA0CCR1 = (int)(1000*duty); //The period in microseconds that the power is ON. It's half the time, which translates to a 50% duty cycle.
-  TA0CTL = TASSEL_2 + MC_1; //TASSEL_2 selects SMCLK as the clock source, and MC_1 tells it to count up to the value in TA0CCR0.
-  __bis_SR_register(LPM0_bits); //Switch to low power mode 0.
+  TA1CCR1 = (int)(1000*duty); //The period in microseconds that the power is ON. It's half the time, which translates to a 50% duty cycle.
+  TA1CTL = TASSEL_2 + MC_1; 
 }
 //-------------------------------------------------------- 
 //Initialization 
@@ -199,22 +205,25 @@ void Init(void)
   P1IE_bit.P3 = 1; //enable interrupts on P1.3 input
 }
 
-void main(void) 
-{
+void main(void) {
   Init(); 
   Init_UART(); 
   Init_ADC();
   Init_PWM();
   
-  while(1)
-  {
-    getc(); 
-    GREEN_LED = ON; 
-    Send(NPOINTS); 
-    GREEN_LED = OFF; 
-    char c1 = getc();
-    char c0 = getc();
+  
+  while(1)  {
+    getc();
+    GREEN_LED = ON;
+    Send(NPOINTS);
+    PWM_fun(0.7);
+    GREEN_LED = OFF;
+    unsigned char c1 = getc();
+    unsigned char c0 = getc();
     Sample(NPOINTS);
-    PWM(0.5);
+    float Ts = (c1 - '0')*10 + (c0 - '0');
+    char[] stuff = "" + Ts
+    puts(stuff);
+    newline();
   }
 }

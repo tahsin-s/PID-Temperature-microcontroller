@@ -2,7 +2,7 @@
 #                                                                              #
 #      IAR Universal Linker V6.6.2.104                                         #
 #                                                                              #
-#           Link time     =  23/Mar/2023  18:11:39                             #
+#           Link time     =  24/Mar/2023  13:06:27                             #
 #           Target CPU    =  MSP430                                            #
 #           List file     =  "D:\Tahsin\Documents\School\3BB4\DP\PID-Temperatu #
 #                            re-microcontroller\Debug\List\Design Project.map" #
@@ -12,7 +12,7 @@
 #                            UBROF version 10.0.6                              #
 #                            Using library modules for C-SPY (-rt)             #
 #           Command line  =  -f                                                #
-#                            C:\Users\Tahsin\AppData\Local\Temp\EWCCD8.tmp     #
+#                            C:\Users\Tahsin\AppData\Local\Temp\EW724A.tmp     #
 #                            (D:\Tahsin\Documents\School\3BB4\DP\PID-Temperatu #
 #                            re-microcontroller\Debug\Obj\main.r43             #
 #                            -o                                                #
@@ -272,7 +272,7 @@ DATA16_AN
     -------------------------------------------------------------------------
 DATA16_AN
   Relative segment, address: 0029 - 0029 (0x1 bytes), align: 0
-  Segment part 15. ROOT       Intra module refs:   PWM
+  Segment part 15. ROOT       Intra module refs:   PWM_fun
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            _A_P2OUT                0029 
@@ -304,40 +304,42 @@ DATA16_AN
            P2SEL_bit               002E 
     -------------------------------------------------------------------------
 DATA16_AN
-  Relative segment, address: 0160 - 0161 (0x2 bytes), align: 0
-  Segment part 18. ROOT       Intra module refs:   PWM
+  Relative segment, address: 0180 - 0181 (0x2 bytes), align: 0
+  Segment part 18. ROOT       Intra module refs:   Init_PWM
+                                                   PWM_fun
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _A_TA0CTL               0160 
+           _A_TA1CTL               0180 
            LOCAL                   ADDRESS         
            =====                   =======         
-           TA0CTL                  0160 
-           TA0CTL_bit              0160 
+           TA1CTL                  0180 
+           TA1CTL_bit              0180 
     -------------------------------------------------------------------------
 DATA16_AN
-  Relative segment, address: 0164 - 0165 (0x2 bytes), align: 0
-  Segment part 19. ROOT       Intra module refs:   PWM
+  Relative segment, address: 0184 - 0185 (0x2 bytes), align: 0
+  Segment part 19. ROOT       Intra module refs:   Init_PWM
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _A_TA0CCTL1             0164 
+           _A_TA1CCTL1             0184 
            LOCAL                   ADDRESS         
            =====                   =======         
-           TA0CCTL1                0164 
-           TA0CCTL1_bit            0164 
+           TA1CCTL1                0184 
+           TA1CCTL1_bit            0184 
     -------------------------------------------------------------------------
 DATA16_AN
-  Relative segment, address: 0172 - 0173 (0x2 bytes), align: 0
-  Segment part 20. ROOT       Intra module refs:   PWM
+  Relative segment, address: 0192 - 0193 (0x2 bytes), align: 0
+  Segment part 20. ROOT       Intra module refs:   Init_PWM
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           TA0CCR0                 0172 
+           TA1CCR0                 0192 
     -------------------------------------------------------------------------
 DATA16_AN
-  Relative segment, address: 0174 - 0175 (0x2 bytes), align: 0
-  Segment part 21. ROOT       Intra module refs:   PWM
+  Relative segment, address: 0194 - 0195 (0x2 bytes), align: 0
+  Segment part 21. ROOT       Intra module refs:   Init_PWM
+                                                   PWM_fun
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           TA0CCR1                 0174 
+           TA1CCR1                 0194 
     -------------------------------------------------------------------------
 DATA16_AN
   Relative segment, address: 0061 - 0061 (0x1 bytes), align: 0
@@ -442,84 +444,85 @@ DATA16_Z
            v                       0200 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C4C8 - C4D1 (0xa bytes), align: 1
+  Relative segment, address: C59C - C5A5 (0xa bytes), align: 1
   Segment part 36.            Intra module refs:   PORT1_ISR::??INTVEC 4
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           PORT1_ISR               C4C8 
+           PORT1_ISR               C59C 
                interrupt function
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C3E8 - C417 (0x30 bytes), align: 1
+  Relative segment, address: C494 - C4C3 (0x30 bytes), align: 1
   Segment part 37.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Init_UART               C3E8 
+           Init_UART               C494 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C4BC - C4C7 (0xc bytes), align: 1
+  Relative segment, address: C590 - C59B (0xc bytes), align: 1
   Segment part 38.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           getc                    C4BC 
+           getc                    C590 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C488 - C499 (0x12 bytes), align: 1
+  Relative segment, address: C56E - C57F (0x12 bytes), align: 1
   Segment part 39.            Intra module refs:   Send
+                                                   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           putc                    C488 
+           putc                    C56E 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C43E - C457 (0x1a bytes), align: 1
+  Relative segment, address: C52C - C545 (0x1a bytes), align: 1
   Segment part 43.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Init_ADC                C43E 
+           Init_ADC                C52C 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C458 - C471 (0x1a bytes), align: 1
+  Relative segment, address: C512 - C52B (0x1a bytes), align: 1
   Segment part 44.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Sample                  C458 
+           Sample                  C512 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C472 - C487 (0x16 bytes), align: 1
+  Relative segment, address: C546 - C55B (0x16 bytes), align: 1
   Segment part 45.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Send                    C472 
+           Send                    C546 
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C4D2 - C4DB (0xa bytes), align: 1
+  Relative segment, address: C4C4 - C4EB (0x28 bytes), align: 1
   Segment part 46.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Init_PWM                C4D2 
+           Init_PWM                C4C4 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C2DA - C325 (0x4c bytes), align: 1
+  Relative segment, address: C426 - C461 (0x3c bytes), align: 1
   Segment part 47.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           PWM                     C2DA 
+           PWM_fun                 C426 
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C418 - C43D (0x26 bytes), align: 1
+  Relative segment, address: C4EC - C511 (0x26 bytes), align: 1
   Segment part 48.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Init                    C418 
+           Init                    C4EC 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C372 - C3B5 (0x44 bytes), align: 1
+  Relative segment, address: C31A - C387 (0x6e bytes), align: 1
   Segment part 49.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           main                    C372            Segment part 19 (?cstart)
+           main                    C31A            Segment part 19 (?cstart)
                calls direct
     -------------------------------------------------------------------------
 INTVEC
@@ -537,11 +540,11 @@ INTVEC
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C4E4 - C4E5 (0x2 bytes), align: 1
+  Relative segment, address: C5AE - C5AF (0x2 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __DebugBreak            C4E4            __exit (?__exit)
+           __DebugBreak            C5AE            __exit (?__exit)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?__exit
@@ -549,11 +552,11 @@ INTVEC
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C49A - C4AB (0x12 bytes), align: 1
+  Relative segment, address: C55C - C56D (0x12 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __exit                  C49A            Segment part 6 (?_exit)
+           __exit                  C55C            Segment part 6 (?_exit)
                                                    _exit (?_exit)
                calls direct
 
@@ -563,14 +566,14 @@ INTVEC
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C4DC, align: 1
+  Relative segment, address: C5A6, align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _exit                   C4DC            exit (?exit)
+           _exit                   C5A6            exit (?exit)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C4DC - C4DF (0x4 bytes), align: 1
+  Relative segment, address: C5A6 - C5A9 (0x4 bytes), align: 1
   Segment part 6.             Intra module refs:   _exit
 
     -------------------------------------------------------------------------
@@ -628,12 +631,31 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C4E0 - C4E3 (0x4 bytes), align: 1
+  Relative segment, address: C5AA - C5AD (0x4 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           exit                    C4E0            Segment part 19 (?cstart)
+           exit                    C5AA            Segment part 19 (?cstart)
                calls direct
+
+    -------------------------------------------------------------------------
+  LIBRARY MODULE, NAME : ?Cast32f32i
+
+  SEGMENTS IN THE MODULE
+  ======================
+<CODE> 1 (was CODE)
+  Relative segment, address: C288 - C29B (0x14 bytes), align: 1
+  Segment part 0.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _Cast32sto32f           C288            main (main)
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: C29C - C319 (0x7e bytes), align: 1
+  Segment part 1.             Intra module refs:   _Cast32sto32f
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _Cast32uto32f           C29C 
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : _Cast32fto32s
@@ -641,11 +663,12 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C3B6 - C3E7 (0x32 bytes), align: 1
+  Relative segment, address: C462 - C493 (0x32 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Cast32fto32s           C3B6            PWM (main)
+           _Cast32fto32s           C462            PWM_fun (main)
+                                                   main (main)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?FLT_Extract
@@ -653,11 +676,11 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C326 - C371 (0x4c bytes), align: 1
+  Relative segment, address: C3DA - C425 (0x4c bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?FLT_Extract            C326            _Cast32fto32s (_Cast32fto32s)
+           ?FLT_Extract            C3DA            _Cast32fto32s (_Cast32fto32s)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?FLT_LT
@@ -665,11 +688,11 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C288 - C2D9 (0x52 bytes), align: 1
+  Relative segment, address: C388 - C3D9 (0x52 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?FLT_LT                 C288            PWM (main)
+           ?FLT_LT                 C388            PWM_fun (main)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : _Mul32f
@@ -681,7 +704,7 @@ RESET
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Mul32f                 C178            PWM (main)
+           _Mul32f                 C178            PWM_fun (main)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : _Add32f
@@ -693,7 +716,7 @@ RESET
   Segment part 1.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Add32f                 C018            PWM (main)
+           _Add32f                 C018            PWM_fun (main)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?memzero
@@ -701,11 +724,11 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C4AC - C4BB (0x10 bytes), align: 1
+  Relative segment, address: C580 - C58F (0x10 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __data16_memzero        C4AC            ?cstart_init_zero (?cstart)
+           __data16_memzero        C580            ?cstart_init_zero (?cstart)
 
 
 
@@ -730,16 +753,16 @@ DATA16_AN                              0003 - 0003               1   rel    0
                                        0061 - 0064               4 
                                        0066 - 0067               2 
                                        0120 - 0121               2 
-                                       0160 - 0161               2 
-                                       0164 - 0165               2 
-                                       0172 - 0175               4 
+                                       0180 - 0181               2 
+                                       0184 - 0185               2 
+                                       0192 - 0195               4 
                                        01B0 - 01B5               6 
 DATA16_I                                  0200                       dse    0
 DATA16_Z                               0200 - 0213              14   rel    1
 CSTACK                                 03B0 - 03FF              50   rel    1
 DATA16_AN                              10F8 - 10F9               2   rel    0
 CSTART                                 C000 - C017              18   rel    1
-<CODE> 1                               C018 - C4E5             4CE   rel    1
+<CODE> 1                               C018 - C5AF             598   rel    1
 INTVEC                                 FFE0 - FFE5               6   com    1
 RESET                                  FFFE - FFFF               2   rel    1
 
@@ -749,7 +772,7 @@ RESET                                  FFFE - FFFF               2   rel    1
                 *                                      *
                 ****************************************
 
- 1 262 bytes of CODE memory
+ 1 464 bytes of CODE memory
    100 bytes of DATA memory (+ 38 absolute )
 
 Errors: none

@@ -142,7 +142,7 @@ void PWM(float duty){
   __bis_SR_register(LPM0_bits); //Switch to low power mode 0.
 }
 
-float PID() { 
+float PID(float Ts) { 
    //matlab val to import
   float Tm[NPOINTS]; //measured temperature
   float  e[NPOINTS];  //e is error term
@@ -256,23 +256,23 @@ puts(s);
 
 void sample(int n) // TO COMPLETE
 {
-//  #define samplePoints 400
-//  unsigned char samped[samplePoints];
-//  for (int i = 0; i < samplePoints; i++){
-//    long temp = ADC10MEM;
-//    samped[i] = (unsigned char)(temp >> 2);
-//  }
-//  
-//  unsigned char midSamp = samplePoints/NPOINTS;
-//  for (int i = 0; i < NPOINTS; i++){
-//    
-//    unsigned char sum = 0;
-//    for (int j = midSamp*i; j < midSamp*(i+1); i++){
-//      sum += samped[j];
-//    }
-//    unsigned char avg = sum/midSamp;
-//    v[i] = avg;
-//  }
+  #define samplePoints 400
+  unsigned char samped[samplePoints];
+  for (int i = 0; i < samplePoints; i++){
+    long temp = ADC10MEM;
+    samped[i] = (unsigned char)(temp >> 2);
+  }
+  
+  unsigned char midSamp = samplePoints/NPOINTS;
+  for (int i = 0; i < NPOINTS; i++){
+    
+    unsigned char sum = 0;
+    for (int j = midSamp*i; j < midSamp*(i+1); i++){
+      sum += samped[j];
+    }
+    unsigned char avg = sum/midSamp;
+    v[i] = avg;
+  }
   for (int i = n-1; i >=0; i--){
     unsigned char temp = ADC10MEM;
     temp = temp >> 2;

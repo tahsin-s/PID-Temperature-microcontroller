@@ -21476,13 +21476,41 @@
     "scope": null
   },
   {
+    "ID": "c:@F@putf",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void putf(float)",
+    "location": {
+      "column": "6",
+      "line": "98",
+      "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
+    },
+    "name": "putf",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@2394@F@putf@i",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "i",
+    "location": {
+      "column": "8",
+      "line": "99",
+      "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
+    },
+    "name": "i",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
     "ID": "c:@F@puts",
     "What": "Function",
     "defdec": "Def",
     "display": "void puts(char *)",
     "location": {
       "column": "6",
-      "line": "99",
+      "line": "102",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "puts",
@@ -21496,7 +21524,7 @@
     "display": "void newline(void)",
     "location": {
       "column": "6",
-      "line": "104",
+      "line": "107",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "newline",
@@ -21510,7 +21538,7 @@
     "display": "void itoa(unsigned int)",
     "location": {
       "column": "6",
-      "line": "110",
+      "line": "113",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "itoa",
@@ -21518,13 +21546,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@2523@F@itoa@i",
+    "ID": "c:main.c@2562@F@itoa@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "16",
-      "line": "112",
+      "line": "115",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "i",
@@ -21532,13 +21560,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@2542@F@itoa@s",
+    "ID": "c:main.c@2581@F@itoa@s",
     "What": "Variable",
     "defdec": "Def",
     "display": "s",
     "location": {
       "column": "8",
-      "line": "113",
+      "line": "116",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "s",
@@ -21552,7 +21580,7 @@
     "display": "void Init_ADC(void)",
     "location": {
       "column": "6",
-      "line": "125",
+      "line": "128",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "Init_ADC",
@@ -21566,7 +21594,7 @@
     "display": "void Sample(int)",
     "location": {
       "column": "6",
-      "line": "141",
+      "line": "144",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "Sample",
@@ -21574,13 +21602,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@3263@F@Sample@i",
+    "ID": "c:main.c@3302@F@Sample@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "12",
-      "line": "143",
+      "line": "146",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "i",
@@ -21588,13 +21616,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@3294@F@Sample@temp",
+    "ID": "c:main.c@3333@F@Sample@temp",
     "What": "Variable",
     "defdec": "Def",
     "display": "temp",
     "location": {
       "column": "19",
-      "line": "144",
+      "line": "147",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "temp",
@@ -21608,7 +21636,7 @@
     "display": "void Send(int)",
     "location": {
       "column": "6",
-      "line": "153",
+      "line": "156",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "Send",
@@ -21616,13 +21644,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@3567@F@Send@i",
+    "ID": "c:main.c@3606@F@Send@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "12",
-      "line": "155",
+      "line": "158",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "i",
@@ -21636,7 +21664,7 @@
     "display": "void Init_PWM(void)",
     "location": {
       "column": "6",
-      "line": "164",
+      "line": "167",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "Init_PWM",
@@ -21644,16 +21672,16 @@
     "scope": null
   },
   {
-    "ID": "c:@F@PWM",
+    "ID": "c:@F@PWM_fun",
     "What": "Function",
     "defdec": "Def",
-    "display": "void PWM(float)",
+    "display": "void PWM_fun(float)",
     "location": {
       "column": "6",
-      "line": "169",
+      "line": "178",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
-    "name": "PWM",
+    "name": "PWM_fun",
     "origin": "project_file",
     "scope": null
   },
@@ -21664,7 +21692,7 @@
     "display": "void Init(void)",
     "location": {
       "column": "6",
-      "line": "188",
+      "line": "194",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "Init",
@@ -21678,7 +21706,7 @@
     "display": "void main(void)",
     "location": {
       "column": "6",
-      "line": "202",
+      "line": "208",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "main",
@@ -21686,13 +21714,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@5258@F@main@c1",
+    "ID": "c:main.c@5471@F@main@c1",
     "What": "Variable",
     "defdec": "Def",
     "display": "c1",
     "location": {
-      "column": "10",
-      "line": "215",
+      "column": "19",
+      "line": "221",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "c1",
@@ -21700,16 +21728,44 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@5281@F@main@c0",
+    "ID": "c:main.c@5503@F@main@c0",
     "What": "Variable",
     "defdec": "Def",
     "display": "c0",
     "location": {
-      "column": "10",
-      "line": "216",
+      "column": "19",
+      "line": "222",
       "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
     },
     "name": "c0",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@5557@F@main@Ts",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "Ts",
+    "location": {
+      "column": "11",
+      "line": "224",
+      "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
+    },
+    "name": "Ts",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@5601@F@main@stuff",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "stuff",
+    "location": {
+      "column": "12",
+      "line": "225",
+      "path": "D:\\Tahsin\\Documents\\School\\3BB4\\DP\\PID-Temperature-microcontroller\\main.c"
+    },
+    "name": "stuff",
     "origin": "project_file",
     "scope": null
   },
