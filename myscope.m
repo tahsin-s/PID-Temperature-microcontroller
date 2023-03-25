@@ -29,7 +29,7 @@ global comport
 global RUN
 global NPOINTS
 RUN = 0;
-NPOINTS = 20;
+NPOINTS = 5;
 comport = serial('COM11','BaudRate',115200);
 fopen(comport)
 % Choose default command line output for myscope
@@ -58,35 +58,21 @@ global comport
 global NPOINTS
 global RUN
 
-%create appropriate timespan, (285.7 per 400 measurements)
-t = linspace(0,285.7,400); 
+settemp = '20';
+maxPoints = 300; %edit to increase or decrease range of plot
+
+axisRange = linspace(1,maxPoints,maxPoints);
+tempvec = zeros(1,maxPoints);
+setvec = zeros(1,maxPoints);
+plotted = 0;
+
 if RUN == 0
   RUN = 1;
+
+  
   % change the string on the button to STOP
   set(handles.Run_Button,'string','STOP')
   while RUN == 1 % ADD YOUR CODE HERE. 
-    % send a single character prompt to the MCU
-    fprintf(comport,'%s','A');
-    % fetch data as single 8-bit bytes
-    d = fread(comport,NPOINTS,'uint8');
-    d = d*548/165; %scale down reading
-
-    % Uncomment for regular scope
-    %{
-    rising = (p(6) - p(1)) > 0;
-    if rising
-        continue
-    end
-    %}
-
-    plot(d)
-    % Here are examples on how to set graph title, labels and axes
-    title('EZ Scope');
-    xlabel('Time - us')
-    ylabel('Voltage - mV')
-    %axis ([0 285.7 0 600]) %uncomment for regular scope
-    % use drawnow to update the figure
-    drawnow  
 
     temptext = get(handles.SetTemp,'String'); %type exactly 2 digits
 
@@ -97,9 +83,38 @@ if RUN == 0
     if  valid
        settemp = temptext;
     end
+
+    %ensure serial packets don't overlap
     fprintf(comport,'%s',settemp(1));
     fprintf(comport,'%s',settemp(2));
-    fread(comport,2,'uchar')
+    
+    
+    % process sent data as 3 digit decimals
+    d = fread(comport,9,"uint8");
+
+    temps = zeros(1,3);
+    temps(1) = d(1)*10 + d(2) + d(3)*0.1;
+    temps(2) = d(4)*10 + d(5) + d(6)*0.1;
+    temps(3) = d(7)*10 + d(8) + d(9)*0.1;
+
+    if plotted+3 >= maxPoints
+        tempvec = zeros(1,maxPoints);
+        plotted = 0;
+    end
+
+    tempvec((plotted+1):(plotted+3)) = temps;
+    setvec((plotted+1):end) = str2double(settemp);
+    plotted = plotted + 3; %3 points have been added to tempvec
+    
+    plot(axisRange(1:plotted),tempvec(1:plotted),axisRange,setvec);
+    
+    title('PID Temperature Measurement');
+    xlabel('Time - s')
+    ylabel('Temperature - °C')
+    axis ([0 maxPoints 0 50]) %uncomment for regular scope
+    legend('Current temp','Set Temp');
+    % use drawnow to update the figure
+    drawnow 
   end
 else
   RUN = 0;
