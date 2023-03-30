@@ -99,7 +99,7 @@ void putc(unsigned char ch)
   UCA0TXBUF = ch;
 }
 
-void puts(char *s)
+void puts_1(char *s)
 {
   while (*s) putc(*s++);
 }
@@ -156,17 +156,19 @@ void Sample(int n) // TO COMPLETE
 void ToVoltage(){
 
   unsigned char avgPoints = SAMPLEPOINTS/NPOINTS;
-  float apInv = 1/avgPoints;
+  float byteInv = 1.0/256;
+  float apInv = 1.0/avgPoints;
 
   for (int i = 0; i < NPOINTS; i++){
 
-    float avg = 0;
+    long avg = 0;
 
-    for (int j = avgPoints*i; j < avgPoints*(i+1); i++){
-      avg += v[j] * 3.90625E-3 *apInv;
+    for (int j = avgPoints*i; j < avgPoints*(i+1); j++){
+      avg += v[j];
     }
 
-    Vth_V0[i] = avg;
+
+    Vth_V0[i] = avg*byteInv*apInv;
   }
 }
 
@@ -217,16 +219,17 @@ void Init_PWM(void){
 }
 
 void PWM_fun(float duty){
-  if(duty<0){ //cooling function is sent as a negative duty cycle
-    duty = 1 + duty; //negative duty cycle + 1 is inverse of abs(negative duty cycle)
-    P2OUT_bit.P7 = 1; //Cooling direction on H-Bridge
+  if(duty<0){ //cooling
+     //negative duty cycle + 1 is inverse of abs(negative duty cycle)
+    P2OUT_bit.P7 = 0; //Cooling direction on H-Bridge
+    duty = -duty; //remove negative sign
   }
   else {
-    P2OUT_bit.P7 = 0; //Heating direction on H-Bridge
+    duty = 1-duty; //invert duty cycle
+    P2OUT_bit.P7 = 1; //Heating direction on H-Bridge
   }
 
   TA1CCR1 = (int)(1000*duty); //The period in microseconds that the power is ON. It's half the time, which translates to a 50% duty cycle.
-  TA1CTL = TASSEL_2 + MC_1;
 }
 
 //--------------------------------------------------------
@@ -243,7 +246,7 @@ unsigned char SetTemp(){
 void PID_fun(float Ts, float *tempOut) {
    //matlab val to import
   //float V0 = 3.3; not needed
-  int Rpot = 2000; //Ohms
+  int Rpot = 10; //Ohms
   int tau = 10;
   float h =1;
   float a =0.00276964;
@@ -268,12 +271,13 @@ void PID_fun(float Ts, float *tempOut) {
     //float Vth_V0 = v[i] * 3.90625E-3; //already a global variable
 
     Tm[i] = pow(a+b*log((Rpot+(Vth_V0[i]))/(1-(Vth_V0[i] )))
-                +c*pow(log((Rpot+(Vth_V0[i] ))/(1-(Vth_V0[i]))),3),-1); //Convert voltage to measured temperature
+                +c*pow(log((Rpot+(Vth_V0[i] ))/(1-(Vth_V0[i]))),3),-1)
+                - 273.15; //Convert voltage to measured temperature in Celsius
 
 
 
     if(i>=2){
-      T[i] = Tm[i] + (tau/(2*h))*(3*Tm[i]-4*Tm[i-1]-Tm[i-2]); //Find the actual temperature using impule responce of thermistor
+      T[i] = Tm[i]; //+ (tau/(2*h))*(3*Tm[i]-4*Tm[i-1]-Tm[i-2]); //Find the actual temperature using impule responce of thermistor
       tempOut[i-2] = T[i]; //modify tempOut vector to store temperature
       e[i] = Ts - T[i]; //Find error term
       E[i] = (2*third)*h*e[i] - (4*third)*E[i-1]+(third)*E[i-2];  //find Integral error term
@@ -316,7 +320,47 @@ void Init(void)
   P1IE_bit.P3 = 1; //enable interrupts on P1.3 input
 }
 
+float byteToDuty(signed char byte){
+
+
+  float pwm;
+
+  pwm = byte/127.0;
+
+  return pwm;
+}
+
+void MATLABVer(){
+  //initialization
+  Init();
+  Init_UART();
+  Init_ADC();
+  Init_PWM();
+  Sample(SAMPLEPOINTS);
+
+  while(1){
+
+    getc();
+    Send(SAMPLEPOINTS);
+
+    signed char dutyByte = getc();
+    float duty = byteToDuty(dutyByte);
+    putc(dutyByte); //push to 1 or -1 if close to the values
+    PWM_fun(duty);
+    Sample(SAMPLEPOINTS);
+
+  }
+
+
+  //sample
+  //send
+  //get PWM char
+  //PWM()
+
+}
+
 void main(void) {
+  MATLABVer();
   Init();
   Init_UART();
   Init_ADC();
@@ -335,19 +379,10 @@ void main(void) {
 
     GREEN_LED = ON;
     //send all values of tempOut
-    for (int i = 0; i < (NPOINTS - 2); i++){
+    for (int i = 0; i < (NPOINTS-2); i++){
       Send3Digit(tempOut[i]);
     }
     GREEN_LED = OFF;
-//    //testing number output
-//    float Ts = (c1 - '0')*10 + (c0 - '0');
-//    Print3Digit(Ts);
-//    puts("Input: ");
-//    putc(c1);
-//    putc(c0);
-//    newline();
-//    puts("----------");
-//    newline();
   }
 }
 

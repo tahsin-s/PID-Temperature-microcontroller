@@ -17,9 +17,9 @@ temp = [0 0 0]; %using 3 points as derivative and integral source
 setvec = zeros(1,maxPoints);
 plotted = 0;
 
-kp = 40;
-ki = 10;
-kd = -5;
+kp = 2;
+ki = 1;
+kd = 0;
 
 zthresh = 10;
 timeStep = 0.1;
@@ -27,12 +27,12 @@ while true
     
     %recieve adc data
     fprintf(comport,"%s",'K');
-    adc = fread(comport,400,"uint8");
+    adc = fread(comport,400,"uint8")';
     
     avgAdc = mean(adc,1)
     %convert adc to temperature
     temp = [temp(2) temp(3) 0]; %shift temperature to the left
-    temp(end) = adcToTemp(avgAdc) %use avg voltage for new temp
+    temp(end) = adcToTemp(adc) %use avg voltage for new temp
     
     % PID calculations
     % z < 0 if cooling needed, Hi, INV
@@ -43,10 +43,9 @@ while true
 
     z = pid3temp(str2double(settemp),temp,kp,ki,kd,timeStep);
     duty = z/zthresh;
-    duty = min(duty,  1); %clamp duty cycle between 1 and -1
-    duty = max(duty, -1);
+    duty = min(max(duty, -1),1) %clamp duty cycle between 1 and -1
 
-    dutyByte = dutyAsBytes(duty); 
+    dutyByte = dutyAsBytes(duty) 
     fprintf(comport,"%s",dutyByte);
     
     recievedDuty = fread(comport,1,"schar")

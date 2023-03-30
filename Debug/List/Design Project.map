@@ -1,8 +1,15 @@
+Warning[w6]: Type conflict for external/entry "puts", in module main against external/entry in module ?puts; prototyped function vs K&R function
+  /* In module main: */
+  /* K&R Function, args 0, attr 0 */
+  int (__cc_version2 puts)();
+  /* In module ?puts: */
+  /* Function, args 1, attr 0 */
+  int (__cc_version2 puts)(char const *);
 ################################################################################
 #                                                                              #
 #      IAR Universal Linker V6.6.2.104                                         #
 #                                                                              #
-#           Link time     =  25/Mar/2023  12:50:49                             #
+#           Link time     =  30/Mar/2023  13:41:42                             #
 #           Target CPU    =  MSP430                                            #
 #           List file     =  "D:\Tahsin\Documents\School\3BB4\DP\PID-Temperatu #
 #                            re-microcontroller\Debug\List\Design Project.map" #
@@ -12,7 +19,7 @@
 #                            UBROF version 10.0.6                              #
 #                            Using library modules for C-SPY (-rt)             #
 #           Command line  =  -f                                                #
-#                            C:\Users\Tahsin\AppData\Local\Temp\EWB58A.tmp     #
+#                            C:\Users\Tahsin\AppData\Local\Temp\EWC1DF.tmp     #
 #                            (D:\Tahsin\Documents\School\3BB4\DP\PID-Temperatu #
 #                            re-microcontroller\Debug\Obj\main.r43             #
 #                            -o                                                #
@@ -317,7 +324,6 @@ DATA16_AN
 DATA16_AN
   Relative segment, address: 0180 - 0181 (0x2 bytes), align: 0
   Segment part 19. ROOT       Intra module refs:   Init_PWM
-                                                   PWM_fun
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            _A_TA1CTL               0180 
@@ -449,6 +455,7 @@ DATA16_AN
 DATA16_Z
   Relative segment, address: 0216 - 03A5 (0x190 bytes), align: 0
   Segment part 35.            Intra module refs:   Sample
+                                                   Send
                                                    ToVoltage
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
@@ -463,89 +470,105 @@ DATA16_Z
            Vth_V0                  0200 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D856 - D85F (0xa bytes), align: 1
+  Relative segment, address: D870 - D879 (0xa bytes), align: 1
   Segment part 40.            Intra module refs:   PORT1_ISR::??INTVEC 4
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           PORT1_ISR               D856 
+           PORT1_ISR               D870 
                interrupt function
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D580 - D5AF (0x30 bytes), align: 1
-  Segment part 41.            Intra module refs:   main
+  Relative segment, address: D536 - D565 (0x30 bytes), align: 1
+  Segment part 41.            Intra module refs:   MATLABVer
+                                                   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Init_UART               D580 
+           Init_UART               D536 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D7E8 - D7F3 (0xc bytes), align: 1
-  Segment part 42.            Intra module refs:   SetTemp
+  Relative segment, address: D804 - D80F (0xc bytes), align: 1
+  Segment part 42.            Intra module refs:   MATLABVer
+                                                   SetTemp
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           getc                    D7E8 
+           getc                    D804 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D722 - D733 (0x12 bytes), align: 1
-  Segment part 43.            Intra module refs:   Send3Digit
+  Relative segment, address: D732 - D743 (0x12 bytes), align: 1
+  Segment part 43.            Intra module refs:   MATLABVer
+                                                   Send
+                                                   Send3Digit
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           putc                    D722 
+           putc                    D732 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D692 - D6AB (0x1a bytes), align: 1
-  Segment part 47.            Intra module refs:   main
+  Relative segment, address: D690 - D6A9 (0x1a bytes), align: 1
+  Segment part 47.            Intra module refs:   MATLABVer
+                                                   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Init_ADC                D692 
+           Init_ADC                D690 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D6E0 - D6F7 (0x18 bytes), align: 1
-  Segment part 48.            Intra module refs:   main
+  Relative segment, address: D6DA - D6F1 (0x18 bytes), align: 1
+  Segment part 48.            Intra module refs:   MATLABVer
+                                                   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Sample                  D6E0 
+           Sample                  D6DA 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D1E6 - D273 (0x8e bytes), align: 1
+  Relative segment, address: D022 - D0C9 (0xa8 bytes), align: 1
   Segment part 49.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ToVoltage               D1E6 
+           ToVoltage               D022 
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: CFE2 - D0BF (0xde bytes), align: 1
+  Relative segment, address: D70A - D71F (0x16 bytes), align: 1
+  Segment part 50.            Intra module refs:   MATLABVer
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Send                    D70A 
+               calls direct
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: CF44 - D021 (0xde bytes), align: 1
   Segment part 51.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Send3Digit              CFE2 
+           Send3Digit              CF44 
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D5E0 - D60D (0x2e bytes), align: 1
-  Segment part 53.            Intra module refs:   main
+  Relative segment, address: D5C6 - D5F3 (0x2e bytes), align: 1
+  Segment part 53.            Intra module refs:   MATLABVer
+                                                   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Init_PWM                D5E0 
+           Init_PWM                D5C6 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D4B0 - D4EB (0x3c bytes), align: 1
-  Segment part 54.            Intra module refs:   PID_fun
+  Relative segment, address: D34A - D39F (0x56 bytes), align: 1
+  Segment part 54.            Intra module refs:   MATLABVer
+                                                   PID_fun
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           PWM_fun                 D4B0 
+           PWM_fun                 D34A 
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D658 - D675 (0x1e bytes), align: 1
+  Relative segment, address: D63E - D65B (0x1e bytes), align: 1
   Segment part 55.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           SetTemp                 D658 
+           SetTemp                 D63E 
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: C018 - C4EB (0x4d4 bytes), align: 1
+  Relative segment, address: C018 - C44D (0x436 bytes), align: 1
   Segment part 56.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
@@ -553,18 +576,35 @@ DATA16_Z
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D60E - D633 (0x26 bytes), align: 1
-  Segment part 57.            Intra module refs:   main
+  Relative segment, address: D5F4 - D619 (0x26 bytes), align: 1
+  Segment part 57.            Intra module refs:   MATLABVer
+                                                   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           Init                    D60E 
+           Init                    D5F4 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D2F6 - D373 (0x7e bytes), align: 1
-  Segment part 58.
+  Relative segment, address: D6F2 - D709 (0x18 bytes), align: 1
+  Segment part 58.            Intra module refs:   MATLABVer
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           main                    D2F6            Segment part 19 (?cstart)
+           byteToDuty              D6F2 
+               calls direct
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: D43E - D489 (0x4c bytes), align: 1
+  Segment part 59.            Intra module refs:   main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MATLABVer               D43E 
+               calls direct
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: D1F0 - D271 (0x82 bytes), align: 1
+  Segment part 60.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    D1F0            Segment part 19 (?cstart)
                calls direct
     -------------------------------------------------------------------------
 INTVEC
@@ -582,11 +622,11 @@ INTVEC
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D878 - D879 (0x2 bytes), align: 1
+  Relative segment, address: D888 - D889 (0x2 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __DebugBreak            D878            __exit (?__exit)
+           __DebugBreak            D888            __exit (?__exit)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?__exit
@@ -594,11 +634,11 @@ INTVEC
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D710 - D721 (0x12 bytes), align: 1
+  Relative segment, address: D720 - D731 (0x12 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __exit                  D710            Segment part 6 (?_exit)
+           __exit                  D720            Segment part 6 (?_exit)
                                                    _exit (?_exit)
                calls direct
 
@@ -608,14 +648,14 @@ INTVEC
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D874, align: 1
+  Relative segment, address: D884, align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _exit                   D874            exit (?exit)
+           _exit                   D884            exit (?exit)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D874 - D877 (0x4 bytes), align: 1
+  Relative segment, address: D884 - D887 (0x4 bytes), align: 1
   Segment part 6.             Intra module refs:   _exit
 
     -------------------------------------------------------------------------
@@ -675,47 +715,47 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D734 - D735 (0x2 bytes), align: 1
+  Relative segment, address: D744 - D745 (0x2 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?Epilogue8              D734            PID_fun (main)
+           ?Epilogue8              D744            PID_fun (main)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D736 - D737 (0x2 bytes), align: 1
+  Relative segment, address: D746 - D747 (0x2 bytes), align: 1
   Segment part 1.             Intra module refs:   ?Epilogue8
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?Epilogue7              D736            ToVoltage (main)
+           ?Epilogue7              D746            ToVoltage (main)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D738 - D739 (0x2 bytes), align: 1
+  Relative segment, address: D748 - D749 (0x2 bytes), align: 1
   Segment part 2.             Intra module refs:   ?Epilogue7
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?Epilogue6              D738            __iar_Log (?xlog)
+           ?Epilogue6              D748            __iar_Log (?xlog)
                                                    internal_Pow (?pow)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D73A - D73B (0x2 bytes), align: 1
+  Relative segment, address: D74A - D74B (0x2 bytes), align: 1
   Segment part 3.             Intra module refs:   ?Epilogue6
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?Epilogue5              D73A 
+           ?Epilogue5              D74A 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D73C - D73D (0x2 bytes), align: 1
+  Relative segment, address: D74C - D74D (0x2 bytes), align: 1
   Segment part 4.             Intra module refs:   ?Epilogue5
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?Epilogue4              D73C 
+           ?Epilogue4              D74C 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D73E - D745 (0x8 bytes), align: 1
+  Relative segment, address: D74E - D755 (0x8 bytes), align: 1
   Segment part 5.             Intra module refs:   ?Epilogue4
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?Epilogue3              D73E            Send3Digit (main)
+           ?Epilogue3              D74E            Send3Digit (main)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?errno
@@ -737,11 +777,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D870 - D873 (0x4 bytes), align: 1
+  Relative segment, address: D880 - D883 (0x4 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           exit                    D870            Segment part 19 (?cstart)
+           exit                    D880            Segment part 19 (?cstart)
                calls direct
 
     -------------------------------------------------------------------------
@@ -750,22 +790,24 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D154 - D167 (0x14 bytes), align: 1
+  Relative segment, address: D15E - D171 (0x14 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Cast32sto32f           D154            PID_fun (main)
+           _Cast32sto32f           D15E            PID_fun (main)
                                                    Send3Digit (main)
+                                                   ToVoltage (main)
                                                    __iar_Exp (?xexp)
                                                    __iar_Log (?xlog)
+                                                   byteToDuty (main)
                                                    internal_Pow (?pow)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D168 - D1E5 (0x7e bytes), align: 1
+  Relative segment, address: D172 - D1EF (0x7e bytes), align: 1
   Segment part 1.             Intra module refs:   _Cast32sto32f
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Cast32uto32f           D168            PID_fun (main)
+           _Cast32uto32f           D172            PID_fun (main)
                                                    ToVoltage (main)
                                                    main (main)
 
@@ -775,11 +817,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D51E - D54F (0x32 bytes), align: 1
+  Relative segment, address: D504 - D535 (0x32 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Cast32fto32s           D51E            PWM_fun (main)
+           _Cast32fto32s           D504            PWM_fun (main)
                                                    Send3Digit (main)
                                                    __iar_Exp (?xexp)
                                                    internal_Pow (?pow)
@@ -790,11 +832,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D41C - D467 (0x4c bytes), align: 1
+  Relative segment, address: D3F2 - D43D (0x4c bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?FLT_Extract            D41C            _Cast32fto32s (_Cast32fto32s)
+           ?FLT_Extract            D3F2            _Cast32fto32s (_Cast32fto32s)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?FLT_EQ
@@ -802,11 +844,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D5B0 - D5DF (0x30 bytes), align: 1
+  Relative segment, address: D566 - D595 (0x30 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?FLT_EQ                 D5B0            Segment part 5 (?xexp)
+           ?FLT_EQ                 D566            Segment part 5 (?xexp)
                                                    __iar_Exp (?xexp)
                                                    internal_Pow (?pow)
 
@@ -816,11 +858,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D374 - D3C9 (0x56 bytes), align: 1
+  Relative segment, address: D2F4 - D349 (0x56 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?FLT_GE                 D374            __iar_Exp (?xexp)
+           ?FLT_GE                 D2F4            __iar_Exp (?xexp)
                                                    internal_Pow (?pow)
 
     -------------------------------------------------------------------------
@@ -829,11 +871,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D3CA - D41B (0x52 bytes), align: 1
+  Relative segment, address: D3A0 - D3F1 (0x52 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?FLT_LT                 D3CA            PID_fun (main)
+           ?FLT_LT                 D3A0            PID_fun (main)
                                                    PWM_fun (main)
                                                    __iar_Exp (?xexp)
                                                    __iar_Log (?xlog)
@@ -845,11 +887,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: CED2 - CFE1 (0x110 bytes), align: 1
+  Relative segment, address: CE34 - CF43 (0x110 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Mul32f                 CED2            PID_fun (main)
+           _Mul32f                 CE34            PID_fun (main)
                                                    PWM_fun (main)
                                                    Segment part 3 (?pow)
                                                    Segment part 4 (?xexp)
@@ -870,13 +912,15 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: CDA2 - CED1 (0x130 bytes), align: 1
+  Relative segment, address: CD04 - CE33 (0x130 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Div32f                 CDA2            PID_fun (main)
+           _Div32f                 CD04            PID_fun (main)
+                                                   ToVoltage (main)
                                                    __iar_Exp (?xexp)
                                                    __iar_Log (?xlog)
+                                                   byteToDuty (main)
                                                    internal_Pow (?pow)
 
     -------------------------------------------------------------------------
@@ -885,28 +929,27 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: CC3E - CC41 (0x4 bytes), align: 1
+  Relative segment, address: CBA0 - CBA3 (0x4 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Sub32f                 CC3E            PID_fun (main)
+           _Sub32f                 CBA0            PID_fun (main)
+                                                   PWM_fun (main)
                                                    Segment part 6 (?xlog)
                                                    __iar_Exp (?xexp)
                                                    __iar_Log (?xlog)
                                                    internal_Pow (?pow)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: CC42 - CDA1 (0x160 bytes), align: 1
+  Relative segment, address: CBA4 - CD03 (0x160 bytes), align: 1
   Segment part 1.             Intra module refs:   _Sub32f
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _Add32f                 CC42            PID_fun (main)
-                                                   PWM_fun (main)
+           _Add32f                 CBA4            PID_fun (main)
                                                    Segment part 3 (?xexp)
                                                    Segment part 3 (?xlog)
                                                    Segment part 8 (?xlog)
                                                    Segment part 9 (?xlog)
-                                                   ToVoltage (main)
                                                    __iar_Exp (?xexp)
                                                    __iar_Log (?xlog)
                                                    internal_Pow (?pow)
@@ -917,11 +960,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D86A - D86F (0x6 bytes), align: 1
+  Relative segment, address: D87A - D87F (0x6 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           log                     D86A            PID_fun (main)
+           log                     D87A            PID_fun (main)
                calls direct
 
     -------------------------------------------------------------------------
@@ -930,19 +973,19 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D4EC - D4EF (0x4 bytes), align: 1
+  Relative segment, address: D4D2 - D4D5 (0x4 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?Mul8                   D4EC            Send3Digit (main)
+           ?Mul8                   D4D2            Send3Digit (main)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D4F0 - D51D (0x2e bytes), align: 1
+  Relative segment, address: D4D6 - D503 (0x2e bytes), align: 1
   Segment part 1.             Intra module refs:   ?Mul8
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?Mul16                  D4F0            ToVoltage (main)
-           ?Mul16to32u             D4F0 
+           ?Mul16                  D4D6            ToVoltage (main)
+           ?Mul16to32u             D4D6 
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?DivMod816u
@@ -950,18 +993,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D676 - D679 (0x4 bytes), align: 1
-  Segment part 0.
+  Relative segment, address: D6C2 - D6D9 (0x18 bytes), align: 1
+  Segment part 1.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?DivMod8u               D676            ToVoltage (main)
-    -------------------------------------------------------------------------
-<CODE> 1 (was CODE)
-  Relative segment, address: D67A - D691 (0x18 bytes), align: 1
-  Segment part 1.             Intra module refs:   ?DivMod8u
-           ENTRY                   ADDRESS         REF BY
-           =====                   =======         ======
-           ?DivMod16u              D67A            ?DivMod16s (?DivMod816s)
+           ?DivMod16u              D6C2            ?DivMod16s (?DivMod816s)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?DivMod816s
@@ -969,11 +1005,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D550 - D57F (0x30 bytes), align: 1
+  Relative segment, address: D596 - D5C5 (0x30 bytes), align: 1
   Segment part 1.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?DivMod16s              D550            Send3Digit (main)
+           ?DivMod16s              D596            Send3Digit (main)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?ShiftLeft16
@@ -981,11 +1017,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D7DC - D7E7 (0xc bytes), align: 1
+  Relative segment, address: D7EC - D7F7 (0xc bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftLeft16            D7DC            __iar_Dint (?xdint)
+           ?ShiftLeft16            D7EC            __iar_Dint (?xdint)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?ShiftLeft16_n
@@ -993,39 +1029,39 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D766 - D767 (0x2 bytes), align: 1
+  Relative segment, address: D786 - D787 (0x2 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftLeft16_7          D766            __iar_Dscale (?xdscale)
+           ?ShiftLeft16_7          D786            __iar_Dscale (?xdscale)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D768 - D769 (0x2 bytes), align: 1
+  Relative segment, address: D788 - D789 (0x2 bytes), align: 1
   Segment part 1.             Intra module refs:   ?ShiftLeft16_7
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftLeft16_6          D768 
+           ?ShiftLeft16_6          D788 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D76A - D76B (0x2 bytes), align: 1
+  Relative segment, address: D78A - D78B (0x2 bytes), align: 1
   Segment part 2.             Intra module refs:   ?ShiftLeft16_6
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftLeft16_5          D76A 
+           ?ShiftLeft16_5          D78A 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D76C - D76D (0x2 bytes), align: 1
+  Relative segment, address: D78C - D78D (0x2 bytes), align: 1
   Segment part 3.             Intra module refs:   ?ShiftLeft16_5
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftLeft16_4          D76C 
+           ?ShiftLeft16_4          D78C 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D76E - D775 (0x8 bytes), align: 1
+  Relative segment, address: D78E - D795 (0x8 bytes), align: 1
   Segment part 4.             Intra module refs:   ?ShiftLeft16_4
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftLeft16_3          D76E 
+           ?ShiftLeft16_3          D78E 
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?ShiftRight16u_n
@@ -1033,42 +1069,42 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D6C6 - D6C9 (0x4 bytes), align: 1
+  Relative segment, address: D65C - D65F (0x4 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftRight16u_7        D6C6            __iar_Dint (?xdint)
+           ?ShiftRight16u_7        D65C            __iar_Dint (?xdint)
                                                    __iar_Dscale (?xdscale)
                                                    __iar_Dtest (?xdtest)
                                                    __iar_Dunscale (?xdunscal)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D6CA - D6CD (0x4 bytes), align: 1
+  Relative segment, address: D660 - D663 (0x4 bytes), align: 1
   Segment part 1.             Intra module refs:   ?ShiftRight16u_7
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftRight16u_6        D6CA 
+           ?ShiftRight16u_6        D660 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D6CE - D6D1 (0x4 bytes), align: 1
+  Relative segment, address: D664 - D667 (0x4 bytes), align: 1
   Segment part 2.             Intra module refs:   ?ShiftRight16u_6
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftRight16u_5        D6CE 
+           ?ShiftRight16u_5        D664 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D6D2 - D6D5 (0x4 bytes), align: 1
+  Relative segment, address: D668 - D66B (0x4 bytes), align: 1
   Segment part 3.             Intra module refs:   ?ShiftRight16u_5
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftRight16u_4        D6D2 
+           ?ShiftRight16u_4        D668 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D6D6 - D6DF (0xa bytes), align: 1
+  Relative segment, address: D66C - D675 (0xa bytes), align: 1
   Segment part 4.             Intra module refs:   ?ShiftRight16u_4
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ShiftRight16u_3        D6D6 
+           ?ShiftRight16u_3        D66C 
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?ClearMemoryWords
@@ -1076,11 +1112,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D756 - D765 (0x10 bytes), align: 1
+  Relative segment, address: D766 - D775 (0x10 bytes), align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           ?ClearMemoryWords       D756            PID_fun (main)
+           ?ClearMemoryWords       D766            PID_fun (main)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?memzero
@@ -1088,11 +1124,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D746 - D755 (0x10 bytes), align: 1
+  Relative segment, address: D796 - D7A5 (0x10 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __data16_memzero        D746            ?cstart_init_zero (?cstart)
+           __data16_memzero        D796            ?cstart_init_zero (?cstart)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?pow
@@ -1100,35 +1136,35 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C4EC - C82B (0x340 bytes), align: 1
+  Relative segment, address: C44E - C78D (0x340 bytes), align: 1
   Segment part 2.             Intra module refs:   pow
            LOCAL                   ADDRESS         
            =====                   =======         
-           internal_Pow            C4EC 
+           internal_Pow            C44E 
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D818 - D823 (0xc bytes), align: 1
+  Relative segment, address: D7F8 - D803 (0xc bytes), align: 1
   Segment part 3.             Intra module refs:   internal_Pow
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D82E - D837 (0xa bytes), align: 1
+  Relative segment, address: D852 - D85B (0xa bytes), align: 1
   Segment part 4.             Intra module refs:   internal_Pow
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D800 - D80B (0xc bytes), align: 1
+  Relative segment, address: D81C - D827 (0xc bytes), align: 1
   Segment part 5.             Intra module refs:   internal_Pow
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D7F4 - D7FF (0xc bytes), align: 1
+  Relative segment, address: D828 - D833 (0xc bytes), align: 1
   Segment part 6.             Intra module refs:   internal_Pow
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D838 - D841 (0xa bytes), align: 1
+  Relative segment, address: D866 - D86F (0xa bytes), align: 1
   Segment part 7.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           pow                     D838            PID_fun (main)
+           pow                     D866            PID_fun (main)
                calls direct
 
     -------------------------------------------------------------------------
@@ -1137,11 +1173,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D274 - D2F5 (0x82 bytes), align: 1
+  Relative segment, address: D272 - D2F3 (0x82 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __iar_Dint              D274            internal_Pow (?pow)
+           __iar_Dint              D272            internal_Pow (?pow)
                calls direct
 
     -------------------------------------------------------------------------
@@ -1150,11 +1186,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D0C0 - D153 (0x94 bytes), align: 1
+  Relative segment, address: D0CA - D15D (0x94 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __iar_Dscale            D0C0            __iar_Exp (?xexp)
+           __iar_Dscale            D0CA            __iar_Exp (?xexp)
                calls direct
 
     -------------------------------------------------------------------------
@@ -1163,11 +1199,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D634 - D657 (0x24 bytes), align: 1
+  Relative segment, address: D61A - D63D (0x24 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __iar_Dtest             D634            __iar_Exp (?xexp)
+           __iar_Dtest             D61A            __iar_Exp (?xexp)
                calls direct
 
     -------------------------------------------------------------------------
@@ -1176,11 +1212,11 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: D468 - D4AF (0x48 bytes), align: 1
+  Relative segment, address: D48A - D4D1 (0x48 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __iar_Dunscale          D468            __iar_Log (?xlog)
+           __iar_Dunscale          D48A            __iar_Log (?xlog)
                                                    internal_Pow (?pow)
                calls direct
 
@@ -1190,40 +1226,40 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: C82C - CA67 (0x23c bytes), align: 1
+  Relative segment, address: C78E - C9C9 (0x23c bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __iar_Exp               C82C            internal_Pow (?pow)
+           __iar_Exp               C78E            internal_Pow (?pow)
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D7C0 - D7CD (0xe bytes), align: 1
+  Relative segment, address: D7B4 - D7C1 (0xe bytes), align: 1
   Segment part 3.             Intra module refs:   __iar_Exp
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D824 - D82D (0xa bytes), align: 1
+  Relative segment, address: D848 - D851 (0xa bytes), align: 1
   Segment part 4.             Intra module refs:   __iar_Exp
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D80C - D817 (0xc bytes), align: 1
+  Relative segment, address: D810 - D81B (0xc bytes), align: 1
   Segment part 5.             Intra module refs:   __iar_Exp
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D842 - D84B (0xa bytes), align: 1
+  Relative segment, address: D83E - D847 (0xa bytes), align: 1
   Segment part 6.             Intra module refs:   Segment part 5
                                                    __iar_Exp
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D84C - D855 (0xa bytes), align: 1
+  Relative segment, address: D834 - D83D (0xa bytes), align: 1
   Segment part 7.             Intra module refs:   __iar_Exp
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D7CE - D7DB (0xe bytes), align: 1
+  Relative segment, address: D7DE - D7EB (0xe bytes), align: 1
   Segment part 8.             Intra module refs:   __iar_Exp
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D7A4 - D7B1 (0xe bytes), align: 1
+  Relative segment, address: D7C2 - D7CF (0xe bytes), align: 1
   Segment part 9.             Intra module refs:   __iar_Exp
 
     -------------------------------------------------------------------------
@@ -1232,45 +1268,45 @@ DATA16_Z
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: CA68 - CC3D (0x1d6 bytes), align: 1
+  Relative segment, address: C9CA - CB9F (0x1d6 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __iar_Log               CA68            log (?log)
+           __iar_Log               C9CA            log (?log)
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D7B2 - D7BF (0xe bytes), align: 1
+  Relative segment, address: D7D0 - D7DD (0xe bytes), align: 1
   Segment part 3.             Intra module refs:   __iar_Log
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D796 - D7A3 (0xe bytes), align: 1
+  Relative segment, address: D7A6 - D7B3 (0xe bytes), align: 1
   Segment part 4.             Intra module refs:   __iar_Log
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D860 - D869 (0xa bytes), align: 1
+  Relative segment, address: D85C - D865 (0xa bytes), align: 1
   Segment part 5.             Intra module refs:   __iar_Log
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D786 - D795 (0x10 bytes), align: 1
+  Relative segment, address: D776 - D785 (0x10 bytes), align: 1
   Segment part 6.             Intra module refs:   __iar_Log
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D776 - D785 (0x10 bytes), align: 1
+  Relative segment, address: D756 - D765 (0x10 bytes), align: 1
   Segment part 8.             Intra module refs:   __iar_Log
                                                    __iar_Logpoly
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D6F8 - D70F (0x18 bytes), align: 1
+  Relative segment, address: D6AA - D6C1 (0x18 bytes), align: 1
   Segment part 9.             Intra module refs:   __iar_Log
                                                    __iar_Logpoly
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: D6AC - D6C5 (0x1a bytes), align: 1
+  Relative segment, address: D676 - D68F (0x1a bytes), align: 1
   Segment part 7.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __iar_Logpoly           D6AC            internal_Pow (?pow)
+           __iar_Logpoly           D676            internal_Pow (?pow)
                calls direct
 
 
@@ -1305,7 +1341,7 @@ DATA16_Z                               0200 - 03A5             1A6   rel    1
 CSTACK                                 03B0 - 03FF              50   rel    1
 DATA16_AN                              10F8 - 10F9               2   rel    0
 CSTART                                 C000 - C017              18   rel    1
-<CODE> 1                               C018 - D879            1862   rel    1
+<CODE> 1                               C018 - D889            1872   rel    1
 INTVEC                                 FFE0 - FFE5               6   com    1
 RESET                                  FFFE - FFFF               2   rel    1
 
@@ -1315,9 +1351,9 @@ RESET                                  FFFE - FFFF               2   rel    1
                 *                                      *
                 ****************************************
 
- 6 274 bytes of CODE memory
+ 6 290 bytes of CODE memory
    502 bytes of DATA memory (+ 39 absolute )
 
 Errors: none
-Warnings: none
+Warnings: 1
 
