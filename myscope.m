@@ -66,7 +66,7 @@ settemp = 15;
 maxPoints = 100;
 
 timeStep = 0.3;
-axisRange = linspace(1,maxPoints,maxPoints);
+axisRange = linspace(0,maxPoints,maxPoints);
 tempvec = zeros(1,400);
 temp = [0 0 0]; %using 3 points as derivative and integral source
 setvec = zeros(1,maxPoints);
@@ -76,7 +76,7 @@ kp = 40;
 ki = 10;
 kd = -5;
 
-zthresh = 1;
+zthresh = 5;
 if RUN == 0
     RUN = 1;
 
@@ -84,7 +84,8 @@ if RUN == 0
   % change the string on the button to STOP
   set(handles.Run_Button,'string','STOP')
   while RUN == 1 % ADD YOUR CODE HERE. 
-    % Makes
+
+    % Puts box values into variables
     temptext = get(handles.SetTemp,'String'); %Set Temp
     if  ~isnan(str2double(temptext))
        settemp = str2double(temptext);
@@ -133,21 +134,22 @@ if RUN == 0
     fprintf(comport,"%s",dutyByte);
     
     recievedDuty = fread(comport,1,"schar");
-    recievedDuty = recievedDuty/127;
+    recievedDuty = recievedDuty/127
     %wait for a bit before changing 
 
     % sends out two bytes to represent the duty cycle
     % plotting 
     if plotted == maxPoints
         plotted = 1;
-        axisRange = linspace(1,maxPoints,maxPoints)*timeStep;
+        axisRange = linspace(0,maxPoints,maxPoints);
     else
         plotted = plotted + 1; %use plotted to keep track of temps
     end
     
     
     tempvec(plotted) = temp(end); %add temperature to plot
-    plot(axisRange(1:plotted),tempvec(1:plotted))
+    setvec(plotted:end) = settemp;
+    plot(axisRange(1:plotted),tempvec(1:plotted),axisRange,setvec)
     axis([0 axisRange(end) 0 60])  
     ax = gca;
     ax.XColor = 'w';
