@@ -206,12 +206,12 @@ void Print3Digit(float T)
 // PWM
 //--------------------------------------------------------
 void Init_PWM(void){
-  P2DIR_bit.P7 = 1; //Set pin 2.7 to be the H-Bridge mode.
+  P2DIR_bit.P5 = 1; //Set pin 2.7 to be the H-Bridge mode.
 
   P2DIR |= BIT1; //Set pin 2.1 to the output direction.
   P2SEL |= BIT1; //Select pin 2.1 as our PWM output.
 
-  P2REN |= BIT7;
+  //P2REN |= BIT7;
   TA1CCR0 = 1000; //Set the period in the Timer A0 Capture/Compare 0register to 1000 us.
   TA1CCTL1 = OUTMOD_7;
   TA1CCR1 = 500; //The period in microseconds that the power is ON. It'shalf the time, which translates to a 50% duty cycle.
@@ -221,12 +221,12 @@ void Init_PWM(void){
 void PWM_fun(float duty){
   if(duty<0){ //cooling
      //negative duty cycle + 1 is inverse of abs(negative duty cycle)
-    P2OUT_bit.P7 = 0; //Cooling direction on H-Bridge
+    P2OUT_bit.P5 = 0; //Cooling direction on H-Bridge
     duty = -duty; //remove negative sign
   }
   else {
     duty = 1-duty; //invert duty cycle
-    P2OUT_bit.P7 = 1; //Heating direction on H-Bridge
+    P2OUT_bit.P5 = 1; //Heating direction on H-Bridge
   }
 
   TA1CCR1 = (int)(1000*duty); //The period in microseconds that the power is ON. It's half the time, which translates to a 50% duty cycle.
@@ -346,6 +346,7 @@ void MATLABVer(){
     signed char dutyByte = getc();
     float duty = byteToDuty(dutyByte);
     putc(dutyByte); //push to 1 or -1 if close to the values
+    //PWM_fun(duty);
     PWM_fun(duty);
     Sample(SAMPLEPOINTS);
 

@@ -76,7 +76,7 @@ kp = 40;
 ki = 10;
 kd = -5;
 
-zthresh = 1;
+zthresh = 10;
 if RUN == 0
     RUN = 1;
 
@@ -92,17 +92,17 @@ if RUN == 0
 
     temptext = get(handles.Kp,'String'); %Kp
     if  ~isnan(str2double(temptext))
-       kp = str2double(temptext);
+       kp = str2double(temptext)
     end
 
     temptext = get(handles.Ki,'String'); %Ki
     if  ~isnan(str2double(temptext))
-       ki = str2double(temptext);
+       ki = str2double(temptext)
     end
 
     temptext = get(handles.Kd,'String'); %Kd
     if  ~isnan(str2double(temptext))
-       kd = str2double(temptext);
+       kd = str2double(temptext)
     end
 
     %recieve adc data
@@ -114,9 +114,6 @@ if RUN == 0
     temp = [temp(2) temp(3) 0]; %shift temperature to the left
     temp(end) = adcToTemp(avgAdc) %use avg voltage for new temp
     
-    strTemp = num2str(temp(3));
-    strTemp = join(strTemp, "°C");
-    set(handles.CurrentTemp,'string',strTemp)
     % PID calculations
     % z < 0 if cooling needed, Hi, INV
     % duty cycle will be < 0
@@ -124,7 +121,7 @@ if RUN == 0
     % z > 0 if heating needed, Low, PWM
 
 
-    z = pid3temp(settemp,temp,kp,ki,kd,timeStep);
+    z = pid3temp(str2double(settemp),temp,kp,ki,kd,timeStep);
     duty = z/zthresh;
     duty = min(duty,  1); %clamp duty cycle between 1 and -1
     duty = max(duty, -1);
