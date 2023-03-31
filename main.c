@@ -27,7 +27,6 @@
 #define GREEN_LED P1OUT_bit.P0
 #define RED_LED P1OUT_bit.P6
 
-#define NPOINTS 5 //Number of points to be used for the PID
 #define SAMPLEPOINTS 400 //
 
 //--------------------------------------------------------
@@ -35,7 +34,7 @@
 //--------------------------------------------------------
 
 unsigned char v[SAMPLEPOINTS];
-float Vth_V0[NPOINTS];
+
 
 //--------------------------------------------------------
 //Miscellaneous Functions:
@@ -99,7 +98,7 @@ void putc(unsigned char ch)
   UCA0TXBUF = ch;
 }
 
-void puts_1(char *s)
+void puts(char *s)
 {
   while (*s) putc(*s++);
 }
@@ -122,6 +121,29 @@ void itoa(unsigned int n)
   }
   puts(s);
 }
+
+void Send3Digit(float T) //for sending floats
+{
+  int temp = (int)(T*10); //send first 3 digits of the temperature
+
+  putc( (char)(temp * 0.01) % 10); //tens column
+  putc( (char)(temp *  0.1) % 10); //ones column
+  putc( (char)temp         % 10); //tenths column
+}
+
+void Print3Digit(float T) //For TeraTerm testing
+{
+  int temp = (int)(T*10); //send first 3 digits of the temperature
+  unsigned char d2 = (char)(temp * 0.01) % 10;
+  unsigned char d1 = (char)(temp *  0.1) % 10;
+  unsigned char d0 = (char)(temp) % 10;
+  putc(d2 + '0'); //tens column
+  putc(d1 + '0'); //ones column
+  putc('.');
+  putc(d0 + '0'); //tenths column
+  newline();
+}
+
 //--------------------------------------------------------
 //ADCModule
 //--------------------------------------------------------
@@ -153,25 +175,6 @@ void Sample(int n) // TO COMPLETE
 
 }
 
-void ToVoltage(){
-
-  unsigned char avgPoints = SAMPLEPOINTS/NPOINTS;
-  float byteInv = 1.0/256;
-  float apInv = 1.0/avgPoints;
-
-  for (int i = 0; i < NPOINTS; i++){
-
-    long avg = 0;
-
-    for (int j = avgPoints*i; j < avgPoints*(i+1); j++){
-      avg += v[j];
-    }
-
-
-    Vth_V0[i] = avg*byteInv*apInv;
-  }
-}
-
 void Send(int n) // TO COMPLETE
 {
   for (int i = n-1; i >=0; i--){
@@ -180,41 +183,19 @@ void Send(int n) // TO COMPLETE
   // Write a simple program to enable the MCU to to transmit the sampled data
   // via the USB interface.
 }
-
-void Send3Digit(float T)
-{
-  int temp = (int)(T*10); //send first 3 digits of the temperature
-
-  putc( (char)(temp * 0.01) % 10); //tens column
-  putc( (char)(temp *  0.1) % 10); //ones column
-  putc( (char)temp         % 10); //tenths column
-}
-
-void Print3Digit(float T)
-{
-  int temp = (int)(T*10); //send first 3 digits of the temperature
-  unsigned char d2 = (char)(temp * 0.01) % 10;
-  unsigned char d1 = (char)(temp *  0.1) % 10;
-  unsigned char d0 = (char)(temp) % 10;
-  putc(d2 + '0'); //tens column
-  putc(d1 + '0'); //ones column
-  putc('.');
-  putc(d0 + '0'); //tenths column
-  newline();
-}
 //--------------------------------------------------------
 // PWM
 //--------------------------------------------------------
 void Init_PWM(void){
   P2DIR_bit.P5 = 1; //Set pin 2.7 to be the H-Bridge mode.
+  P2OUT_bit.P5 = 0;
 
   P2DIR |= BIT1; //Set pin 2.1 to the output direction.
   P2SEL |= BIT1; //Select pin 2.1 as our PWM output.
 
-  //P2REN |= BIT7;
   TA1CCR0 = 1000; //Set the period in the Timer A0 Capture/Compare 0register to 1000 us.
   TA1CCTL1 = OUTMOD_7;
-  TA1CCR1 = 500; //The period in microseconds that the power is ON. It'shalf the time, which translates to a 50% duty cycle.
+  TA1CCR1 = 0; //The period in microseconds that the power is ON. It'shalf the time, which translates to a 50% duty cycle.
   TA1CTL = TASSEL_2 + MC_1; //TASSEL_2 selects SMCLK as the clock source,and MC_1 tells it to count up to the value in TA0CCR0.
 }
 
@@ -232,76 +213,6 @@ void PWM_fun(float duty){
   TA1CCR1 = (int)(1000*duty); //The period in microseconds that the power is ON. It's half the time, which translates to a 50% duty cycle.
 }
 
-//--------------------------------------------------------
-// PID
-//--------------------------------------------------------
-unsigned char SetTemp(){
-      unsigned char c1 = getc(); //Recieve char
-      unsigned char c0 = getc(); //Recieve char
-
-      //528 = 48*11 = '0'*10 + '0'
-      return c1*10 + c0 - 528; //convert c1c0 to number, subtract '0' ASCII
-}
-
-void PID_fun(float Ts, float *tempOut) {
-   //matlab val to import
-  //float V0 = 3.3; not needed
-  int Rpot = 10; //Ohms
-  int tau = 10;
-  float h =1;
-  float a =0.00276964;
-  float b =0.00025192;
-  float c =3.2782E-7;
-  char z_thresh =30;
-
-  float kp = 0.003;
-  float ki = 0.0004;
-  float kd = 1;
-
-  float Tm[NPOINTS]; //measured temperature
-  float  e[NPOINTS];  //e is error term
-  float ep[NPOINTS]; //derivative of error term e'
-  float  E[NPOINTS] = {0};  //integral of error term
-  float  T[NPOINTS];  //Actual Temperature
-
-  float third = 1/3;
-
-  for(int i=0; i<(NPOINTS); i++){
-
-    //float Vth_V0 = v[i] * 3.90625E-3; //already a global variable
-
-    Tm[i] = pow(a+b*log((Rpot+(Vth_V0[i]))/(1-(Vth_V0[i] )))
-                +c*pow(log((Rpot+(Vth_V0[i] ))/(1-(Vth_V0[i]))),3),-1)
-                - 273.15; //Convert voltage to measured temperature in Celsius
-
-
-
-    if(i>=2){
-      T[i] = Tm[i]; //+ (tau/(2*h))*(3*Tm[i]-4*Tm[i-1]-Tm[i-2]); //Find the actual temperature using impule responce of thermistor
-      tempOut[i-2] = T[i]; //modify tempOut vector to store temperature
-      e[i] = Ts - T[i]; //Find error term
-      E[i] = (2*third)*h*e[i] - (4*third)*E[i-1]+(third)*E[i-2];  //find Integral error term
-
-      if(i>3){
-        ep[i] = (-1/(2*h))*(3*T[i]-4*T[i-1]+T[i-2]); //find Derivative error term
-      }
-    }
-  }
-
-   //calculate net error term
-  float zed = kp*e[NPOINTS-1]+ki*E[NPOINTS - 1]+kd*ep[NPOINTS - 1];
-
-  if(zed<(-z_thresh)){
-    PWM_fun(-1);
-  }
-  else if(zed>(z_thresh)){
-    PWM_fun(1);
-  }
-  else{
-    PWM_fun(zed/z_thresh);
-  }
-
-}
 //--------------------------------------------------------
 //Initialization
 //--------------------------------------------------------
@@ -321,16 +232,12 @@ void Init(void)
 }
 
 float byteToDuty(signed char byte){
-
-
   float pwm;
-
   pwm = byte/127.0;
-
   return pwm;
 }
 
-void MATLABVer(){
+void main(){
   //initialization
   Init();
   Init_UART();
@@ -343,47 +250,13 @@ void MATLABVer(){
     getc();
     Send(SAMPLEPOINTS);
 
-    signed char dutyByte = getc();
-    float duty = byteToDuty(dutyByte);
-    putc(dutyByte); //push to 1 or -1 if close to the values
+    signed char dutyByte = getc(); //convert to signed number
+    float duty = byteToDuty(dutyByte); //convert to float
+    putc(dutyByte); //return the byte for debug in MATLAB
     //PWM_fun(duty);
-    PWM_fun(duty);
+    PWM_fun(duty); //set duty cycle and H-Bridge mode
     Sample(SAMPLEPOINTS);
 
-  }
-
-
-  //sample
-  //send
-  //get PWM char
-  //PWM()
-
-}
-
-void main(void) {
-  MATLABVer();
-  Init();
-  Init_UART();
-  Init_ADC();
-  Init_PWM();
-  float tempOut[NPOINTS-2] = {0};
-
-  while(1)  {
-
-    //Send(NPOINTS); //Sending NPOINTS chars
-    Sample(SAMPLEPOINTS);
-    ToVoltage();
-    unsigned char Ts = SetTemp(); //Recieve 2 chars
-    RED_LED = ON;
-    PID_fun(Ts, tempOut); //autosets PWM and adds temperatures to tempOut
-    RED_LED = OFF;
-
-    GREEN_LED = ON;
-    //send all values of tempOut
-    for (int i = 0; i < (NPOINTS-2); i++){
-      Send3Digit(tempOut[i]);
-    }
-    GREEN_LED = OFF;
   }
 }
 
