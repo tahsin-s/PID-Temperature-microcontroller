@@ -63,14 +63,16 @@ global NPOINTS
 global RUN
 
 settemp = 15;
-maxPoints = 100;
+maxPoints = 500;
+maxTime = 20;
 
-timeStep = 0.3;
-axisRange = linspace(0,maxPoints,maxPoints);
-tempvec = zeros(1,400);
+timeStep = 0.001;
+timeRange = zeros(1,maxPoints);
+tempvec = zeros(1,maxPoints);
 temp = [0 0 0]; %using 3 points as derivative and integral source
 setvec = zeros(1,maxPoints);
 plotted = 0;
+timer = 0;
 
 kp = 40;
 ki = 10;
@@ -83,6 +85,7 @@ if RUN == 0
   
   % change the string on the button to STOP
   set(handles.Run_Button,'string','STOP')
+  tic
   while RUN == 1 % ADD YOUR CODE HERE. 
 
     % Puts box values into variables
@@ -113,10 +116,9 @@ if RUN == 0
     avgAdc = mean(adc,1);
     %convert adc to temperature
     temp = [temp(2) temp(3) 0]; %shift temperature to the left
-    temp(end) = adcToTemp(avgAdc) %use avg voltage for new temp
+    temp(end) = adcToTemp(avgAdc); %use avg voltage for new temp
     
-    strTemp = num2str(temp(3));
-    strTemp = join(strTemp, "°C");
+    strTemp = sprintf("%.1f °C",temp(3));
     set(handles.CurrentTemp,'string',strTemp)
     % PID calculations
     % z < 0 if cooling needed, Hi, INV
@@ -139,9 +141,10 @@ if RUN == 0
 
     % sends out two bytes to represent the duty cycle
     % plotting 
-    if plotted == maxPoints
+    if timer >= maxTime
         plotted = 1;
-        axisRange = linspace(0,maxPoints,maxPoints);
+        timer = 0;
+        timeRange = linspace(0,maxPoints,maxPoints);
     else
         plotted = plotted + 1; %use plotted to keep track of temps
     end
@@ -149,8 +152,8 @@ if RUN == 0
     
     tempvec(plotted) = temp(end); %add temperature to plot
     setvec(plotted:end) = settemp;
-    plot(axisRange(1:plotted),tempvec(1:plotted),axisRange,setvec)
-    axis([0 axisRange(end) 0 60])  
+    plot(timeRange(1:plotted),tempvec(1:plotted),timeRange,setvec)
+    axis([0 maxTime 0 60])  
     ax = gca;
     ax.XColor = 'w';
     ax.YColor = 'w';
@@ -160,6 +163,9 @@ if RUN == 0
     %update timeStep
     timeStep = toc;
     tic
+
+    timer = timer + timeStep;
+    timeRange(plotted+1) = timer;
   end
 else
   RUN = 0;
