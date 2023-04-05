@@ -1,8 +1,8 @@
 %-----------------------------------------------------------------------
 % myscope.m
-% Written by Kenrick Chin
+% Written by Kenrick Chin, Mohammadreza Shahzadeh
 % Date: 2016 Jan 29
-% Modified by Mohammadreza Shahzadeh
+% Modified by Tahsin Sarker, Sebastian Carter, Syed Rahman
 %-----------------------------------------------------------------------
 function varargout = myscope(varargin)
 gui_Singleton = 1;
@@ -75,9 +75,9 @@ setvec = zeros(1,maxPoints);
 plotted = 0;
 timer = 0;
 
-kp = 40;
-ki = 10;
-kd = -5;
+kp = 0;
+ki = 0;
+kd = 0;
 
 zthresh = 5;
 if RUN == 0
@@ -91,8 +91,9 @@ if RUN == 0
 
     % Puts box values into variables
     temptext = get(handles.SetTemp,'String'); %Set Temp
-    if  ~isnan(str2double(temptext))
-       settemp = str2double(temptext);
+    if  (~isnan(str2double(temptext))) && (str2double(temptext) ~= settemp)
+        settemp = str2double(temptext);
+        intSoFar = 0;
     end
 
     temptext = get(handles.Kp,'String'); %Kp
@@ -129,15 +130,19 @@ if RUN == 0
 
 
     [z, intSoFar] = pid3temp(settemp,temp,intSoFar,kp,ki,kd,timeStep);
-    duty = z/zthresh;
+    intSoFar
+
+    duty = z;
+
     duty = min(duty,  1); %clamp duty cycle between 1 and -1
     duty = max(duty, -1);
 
     dutyByte = dutyAsBytes(duty); 
+    
     fprintf(comport,"%s",dutyByte);
     
-    recievedDuty = fread(comport,1,"schar");
-    recievedDuty = recievedDuty/127;
+    recievedDuty = fread(comport,1,"int8");
+    recievedDuty = recievedDuty/127
     %wait for a bit before changing 
 
     % sends out two bytes to represent the duty cycle
@@ -158,6 +163,8 @@ if RUN == 0
     setvec(plotted:end) = settemp;
     plot(timeRange(1:plotted),tempvec(1:plotted),timeRange,setvec)
     axis([0 maxTime 0 60])  
+    xlabel("Time (s)")
+    ylabel("Temperature (C)")
     ax = gca;
     ax.XColor = 'w';
     ax.YColor = 'w';
@@ -271,3 +278,10 @@ function Kd_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in updatebutton.
+function updatebutton_Callback(hObject, eventdata, handles)
+% hObject    handle to updatebutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

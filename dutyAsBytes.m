@@ -8,6 +8,7 @@ function byte = dutyAsBytes(duty)
     % send msb = Low, bits = PWM
     
     byte = round(duty*127);
+    
     if byte < 0
         byte = byte + 256;
     end
